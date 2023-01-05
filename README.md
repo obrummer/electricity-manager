@@ -1,27 +1,37 @@
-# Getting Started with Create React App
+# Electricity Manager
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) TS template.
+This is a fullstack demo app to simulate simple electricity management. The main functionalities are: 
+- to show electricity stock price in Finland
+- to be able to create electricity switches which can be configured to be active/non-active based on the high limit price that the user sets
 
-## Available Scripts
+Technologies used: Typescript, React, Redux Toolkit, Eslint, Prettier, Material UI, Node/Express, MongoDB Atlas
+
+## Getting started with Frontend
+
+Frontend was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 In the project directory, you can run:
 
-### `npm start`
+```bash
+npm install
+```
+and 
 
-Runs the app in the development mode.\
+```bash
+npm start
+```
+
+to run the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `npm test`
+```bash
+npm run build
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
+builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
 The build is minified and the filenames include the hashes.\
@@ -29,18 +39,45 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+## Getting started with Backend
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Backend uses [MongoDB Atlas](https://www.mongodb.com/atlas/database) as database. In order to run the app you need to start using the service. Or then you can use a local MongoDB. Environment variables are set in .env file and project contains .envExample including sample variables. 
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+For getting the electrity price data, project uses [ENTSO-E Transparency Platform RESTful API](https://transparency.entsoe.eu/). API specification can be found [here](https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html).
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+To get access to an security token you need to register the Transparency Platform and send an email to transparency@entsoe.eu with “Restful API access” in the subject line. Indicate the email address you entered during registration in the email body. When granted access there will be an option to generate an security token under account settings.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+When you have database connected and token available you you can run in the project directory:
 
-## Learn More
+```bash
+npm install
+```
+and 
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+npm run dev
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+to run the app in the development mode.
+
+To make a production build run: 
+
+```bash
+npm run tsc
+```
+and run the production version:
+
+```bash
+npm run start
+```
+
+
+
+
+
+
+
+
+
+
+
