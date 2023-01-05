@@ -21,9 +21,9 @@ describe('Price chart ', function () {
   it('chart date is tomorrow if clicked +1', function () {
     // price data for tomorrow is not available yet so we need to check if the button is disabled or not
     // price data arrives usually at 15:00 finnish time
-    cy.get('#toggle-add-day').then((x) => {
-      if (x.is('disabled')) {
-        cy.get('#toggle-add-day').should('be.disabled');
+    cy.get('#toggle-add-day').then(($btn) => {
+      if ($btn.is(':disabled')) {
+        return;
       } else {
         cy.get('#toggle-add-day').click();
         cy.contains(tomorrow);
