@@ -1,6 +1,7 @@
 # Electricity Manager
 
-This is a fullstack demo app to simulate simple electricity management. The main functionalities are: 
+This is a fullstack demo app to simulate simple electricity management. The main functionalities are:
+
 - to show electricity stock price in Finland
 - to be able to create electricity switches which can be configured to be active/non-active based on the high limit price that the user sets
 
@@ -15,7 +16,8 @@ In the project directory, you can run:
 ```bash
 npm install
 ```
-and 
+
+and
 
 ```bash
 npm start
@@ -41,7 +43,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ## Getting started with Backend
 
-Backend uses [MongoDB Atlas](https://www.mongodb.com/atlas/database) as database. In order to run the app you need to start using the service. Or then you can use a local MongoDB. Environment variables are set in .env file and project contains .envExample including sample variables. 
+Backend uses [MongoDB Atlas](https://www.mongodb.com/atlas/database) as database. In order to run the app you need to start using the service. Or then you can use a local MongoDB. Environment variables are set in .env file and project contains .envExample including sample variables.
 
 For getting the electrity price data, project uses [ENTSO-E Transparency Platform RESTful API](https://transparency.entsoe.eu/). API specification can be found [here](https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html).
 
@@ -52,7 +54,8 @@ When you have database connected and token available you you can run in the proj
 ```bash
 npm install
 ```
-and 
+
+and
 
 ```bash
 npm run dev
@@ -60,24 +63,53 @@ npm run dev
 
 to run the app in the development mode.
 
-To make a production build run: 
+To make a production build run:
 
 ```bash
 npm run tsc
 ```
+
 and run the production version:
 
 ```bash
 npm run start
 ```
 
+## Running tests
 
+Frontend -tests are component/unit -tests written with [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/). Tests can be run in frontend directory by running:
 
+```bash
+npm run test
+```
 
+Backend -tests includes unit tests written with [Jest](https://jestjs.io/) and API integration tests written with [Supertest](https://www.npmjs.com/package/supertest) -library. Running the tests at backend requires own database which will be set in environment variables. Check the variable model from .envExample file. After setting the variable tests can be run in backend directory by running:
 
+```bash
+npm run test
+```
 
+Application e2e tests are written with [Cypress](https://www.cypress.io/) and the code can be found in frontend directory under cypress -folder. Cypress tests use the same test database as the API tests so in order to run the tests you need to first start the backend with right env variables by running the following script in backend directory:
 
+```bash
+npm run start:test
+```
 
+Next you need to start the frontend and after that open the Cypress UI by running following script in frontend directory:
 
+```bash
+npm run cypress:open
+```
 
+Now youjn can run the tests through Cypress ui. If you want to run the tests headless, run the script:
 
+```bash
+npm run cypress:run
+```
+
+## Roadmap
+
+App is being deployed with using Docker and [Fly](https://fly.io/). Next steps for the application are:
+
+- User management and authentication
+- Server for handling the switches
