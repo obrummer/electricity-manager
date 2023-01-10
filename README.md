@@ -43,7 +43,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ## Getting started with Backend
 
-Backend uses [MongoDB Atlas](https://www.mongodb.com/atlas/database) as database. In order to run the app you need to start using the service. Or then you can use a local MongoDB. Environment variables are set in .env file and project contains .envExample including sample variables.
+Backend uses [MongoDB Atlas](https://www.mongodb.com/atlas/database) as database. In order to run the app you need to start using the service. Or then you can use a local MongoDB. Environment variables are set in .env file and project contains .env.example including sample variables.
 
 For getting the electrity price data, project uses [ENTSO-E Transparency Platform RESTful API](https://transparency.entsoe.eu/). API specification can be found [here](https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html).
 
@@ -83,7 +83,7 @@ Frontend -tests are component/unit -tests written with [React Testing Library](h
 npm run test
 ```
 
-Backend -tests includes unit tests written with [Jest](https://jestjs.io/) and API integration tests written with [Supertest](https://www.npmjs.com/package/supertest) -library. Running the tests at backend requires own database which will be set in environment variables. Check the variable model from .envExample file. After setting the variable tests can be run in backend directory by running:
+Backend -tests includes unit tests written with [Jest](https://jestjs.io/) and API integration tests written with [Supertest](https://www.npmjs.com/package/supertest) -library. Running the tests at backend requires own database which will be set in environment variables. Check the variable model from .env.example file. After setting the variable tests can be run in backend directory by running:
 
 ```bash
 npm run test
