@@ -1,12 +1,10 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { switchesApi } from '../features/switches/switchesAPI';
 import { pricesApi } from '../features/prices/pricesAPI';
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
     [switchesApi.reducerPath]: switchesApi.reducer,
     [pricesApi.reducerPath]: pricesApi.reducer,
   },

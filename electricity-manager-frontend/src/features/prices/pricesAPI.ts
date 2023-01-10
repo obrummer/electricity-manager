@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Price, Indicators } from '../../types';
 
+// TODO refactor to use only one endpoint
 export const pricesApi = createApi({
   reducerPath: 'pricesApi',
   tagTypes: ['Prices'],
@@ -8,9 +9,6 @@ export const pricesApi = createApi({
   endpoints: (builder) => ({
     getPrices: builder.query<Price[], void>({
       query: () => 'electricityprice',
-      // Provides a list of `Prices` by `id`.
-      // If any mutation is executed that `invalidate`s any of these tags, this query will re-run to be always up-to-date.
-      // The `LIST` id is a "virtual id" we just made up to be able to invalidate this query specifically if a new `Prices` element was added.
       providesTags: (result) =>
         // is result available?
         result
@@ -24,9 +22,6 @@ export const pricesApi = createApi({
     }),
     getTomorrowPrices: builder.query<Price[], void>({
       query: () => 'tomorrowelectricityprice',
-      // Provides a list of `Prices` by `id`.
-      // If any mutation is executed that `invalidate`s any of these tags, this query will re-run to be always up-to-date.
-      // The `LIST` id is a "virtual id" we just made up to be able to invalidate this query specifically if a new `Prices` element was added.
       providesTags: (result) =>
         // is result available?
         result
@@ -40,9 +35,6 @@ export const pricesApi = createApi({
     }),
     getYesterdayPrices: builder.query<Price[], void>({
       query: () => 'yesterdayelectricityprice',
-      // Provides a list of `Prices` by `id`.
-      // If any mutation is executed that `invalidate`s any of these tags, this query will re-run to be always up-to-date.
-      // The `LIST` id is a "virtual id" we just made up to be able to invalidate this query specifically if a new `Prices` element was added.
       providesTags: (result) =>
         // is result available?
         result
