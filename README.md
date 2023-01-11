@@ -5,7 +5,7 @@ This is a fullstack demo app to simulate simple electricity management. It's mai
 - Displaying the current electricity stock price in Finland
 - Allowing users to create electricity switches that can be configured to be active or inactive based on the high limit price set by the user
 
-The app is built using the following technologies: TypeScript, React, Redux Toolkit, ESLint, Prettier, Material UI, Node/Express, Mongoose, MongoDB Atlas, Jest, React Testing Library, and Cypress.
+The app is built using the following technologies: TypeScript, React, Redux Toolkit, ESLint, Prettier, Material UI, Node/Express, Mongoose, MongoDB Atlas, Jest, React Testing Library and Cypress.
 
 ## Getting started with Frontend
 
@@ -26,8 +26,7 @@ To build the app for production, run:
 npm run build
 ```
 
-builds the app for production to the `build` folder.\
-This will build the app and optimize it for the best performance. The build will be minified and the filenames will include hashes. Once the app is built, it is ready to be deployed.
+This will build the app for production to the `build` folder and optimize it for the best performance. The build will be minified and the filenames will include hashes. Once the app is built, it is ready to be deployed.
 
 ## Getting started with Backend
 
