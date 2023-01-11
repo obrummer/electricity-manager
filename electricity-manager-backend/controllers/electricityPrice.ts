@@ -6,7 +6,6 @@ import express from 'express';
 const electricityPriceRouter = express.Router();
 import dayjs = require('dayjs');
 
-// Get todays electricity price for current day from ENTSOE
 electricityPriceRouter.get('/electricityprice', async (_req, res, next) => {
   try {
     const price = await getElectricityPrice();

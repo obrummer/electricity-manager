@@ -7,7 +7,7 @@ import { getElectricityPrice } from '../services/electricityPriceService';
 // Cron expression for every hour
 const cronExpression = '0 * * * *';
 
-// Function to update switchpoints every hour and check if the current price is higher than the high limit of the switchpoint
+// Update switchpoints every hour and check if the current price is higher than the high limit of the switchpoint
 // and set the isActive property accordingly
 export async function updateSwitchPoints() {
   try {

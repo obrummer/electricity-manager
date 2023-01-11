@@ -30,7 +30,6 @@ switchPointRouter.get('/switches/:id', async (req, res, next) => {
 
 // Create switch
 switchPointRouter.post('/switches', async (req, res, next) => {
-  //Todo
   try {
     const data = await getElectricityPrice();
     const todayData = data.filter((priceObject: { date: string }) => {

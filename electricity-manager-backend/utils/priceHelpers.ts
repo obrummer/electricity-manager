@@ -7,26 +7,6 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.extend(localizedFormat);
 
-export const today = dayjs().tz('Europe/Helsinki').format('DD.MM.YYYY');
-export const tomorrow = dayjs()
-  .tz('Europe/Helsinki')
-  .add(1, 'day')
-  .format('DD.MM.YYYY');
-export const yesterday = dayjs()
-  .tz('Europe/Helsinki')
-  .subtract(1, 'day')
-  .format('DD.MM.YYYY');
-
-export const getElectricityPricesForDate = (
-  priceUnits: PriceUnit[],
-  date: string,
-): PriceUnit[] => {
-  const prices = priceUnits.filter((priceObject: { date: string }) => {
-    return priceObject.date === date;
-  });
-  return prices;
-};
-
 export const getAveragePrice = (priceUnits: PriceUnit[]): number => {
   const averagePrice =
     priceUnits.reduce((acc, item) => acc + item.price, 0) / priceUnits.length;
