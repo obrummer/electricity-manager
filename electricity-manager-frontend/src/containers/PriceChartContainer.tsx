@@ -1,10 +1,6 @@
 import { useState } from 'react';
 import DayPriceChart from '../components/DayPriceChart';
-import {
-  useGetPricesQuery,
-  useGetTomorrowPricesQuery,
-  useGetYesterdayPricesQuery,
-} from '../features/prices/pricesAPI';
+import { useGetPricesByDateQuery } from '../features/prices/pricesAPI';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Switch from '@mui/material/Switch';
@@ -17,6 +13,7 @@ import ContainerLoader from '../components/ContainerLoader';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import { currentUser } from '../utils/userConfig';
+import { getPricesByDate } from '../utils/chartFunctions';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -24,17 +21,31 @@ dayjs.extend(timezone);
 const PriceChartContainer = () => {
   const [alignment, setAlignment] = useState<string>('today');
   const [showTax, setShowTax] = useState<boolean>(false);
-  const { data: today, isLoading, isError } = useGetPricesQuery();
+
   const {
-    data: tomorrow,
-    isLoading: isLoadingTomorrow,
-    isError: errorTomorrow,
-  } = useGetTomorrowPricesQuery();
-  const {
-    data: yesterday,
-    isLoading: isLoadingYesterday,
-    isError: errorYesterday,
-  } = useGetYesterdayPricesQuery();
+    data: pricesByDate,
+    isLoading,
+    isError,
+  } = useGetPricesByDateQuery(
+    {},
+    // {
+    //   selectFromResult: ({ data, error, isLoading }) => ({
+    //     data: data?.filter((item: Price) => item.date === '11.01.2023'),
+    //     error,
+    //     isLoading,
+    //   }),
+    // },
+  );
+
+  const today = getPricesByDate(pricesByDate, dayjs().format('DD.MM.YYYY'));
+  const tomorrow = getPricesByDate(
+    pricesByDate,
+    dayjs().add(1, 'day').format('DD.MM.YYYY'),
+  );
+  const yesterday = getPricesByDate(
+    pricesByDate,
+    dayjs().subtract(1, 'day').format('DD.MM.YYYY'),
+  );
 
   const dataType = (alignment: string) => {
     if (alignment === 'today' && today) {
@@ -73,18 +84,11 @@ const PriceChartContainer = () => {
     }
   };
 
-  if (isLoading || isLoadingTomorrow || isLoadingYesterday) {
+  if (isLoading) {
     return <ContainerLoader />;
   }
 
-  if (
-    isError ||
-    errorTomorrow ||
-    errorYesterday ||
-    !today ||
-    !tomorrow ||
-    !yesterday
-  ) {
+  if (isError || !today || !tomorrow || !yesterday) {
     return <div>Something went wrong</div>;
   }
 

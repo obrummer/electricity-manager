@@ -9,7 +9,7 @@ export const switchesApi = createApi({
   endpoints: (builder) => ({
     getSwitches: builder.query<SwitchPoint[], void>({
       query: () => 'switches',
-      // Provides a list of `Swtiches` by `id`.
+      // Provides a list of `Switches` by `id`.
       // If any mutation is executed that `invalidate`s any of these tags, this query will re-run to be always up-to-date.
       // The `LIST` id is a "virtual id" we just made up to be able to invalidate this query specifically if a new `Switches` element was added.
       providesTags: (result) =>
@@ -45,7 +45,7 @@ export const switchesApi = createApi({
         };
       },
       // Invalidates all queries that subscribe to this Switch `id` only.
-      // In this case, `getPost` will be re-run. `getPosts` *might*  rerun, if this id was under its results.
+      // In this case, `getSwitches` *might*  rerun, if this id was under its results.
       invalidatesTags: (result, error, { _id }) => [{ type: 'Switches', _id }],
     }),
     deleteSwitch: builder.mutation<{ success: boolean; id: string }, string>({
