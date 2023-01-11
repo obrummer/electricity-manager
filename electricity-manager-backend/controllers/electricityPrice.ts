@@ -6,6 +6,21 @@ import express from 'express';
 const electricityPriceRouter = express.Router();
 import dayjs = require('dayjs');
 
+electricityPriceRouter.get(
+  '/electricitypricebydate',
+  async (req, res, next) => {
+    try {
+      const startDate = req.query.startDate as string;
+      const endDate = req.query.endDate as string;
+      const prices = await getElectricityPrice(startDate, endDate);
+
+      res.json(prices);
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
 electricityPriceRouter.get('/electricityprice', async (_req, res, next) => {
   try {
     const price = await getElectricityPrice();

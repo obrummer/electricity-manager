@@ -20,6 +20,7 @@ import {
   getCurrentPrice,
   roundByTwoDecimals,
 } from '../utils/priceHelpers';
+import { DocumentTypes, BiddingZones, TimeZones } from '../utils/config';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.extend(localizedFormat);
@@ -35,9 +36,9 @@ export const getElectricityPriceInXML = async (
   const endingDate = endDate
     ? endDate
     : dayjs().add(1, 'day').format('YYYYMMDD');
-  const documentType = 'A44';
-  const inDomain = '10YFI-1--------U';
-  const outDomain = '10YFI-1--------U';
+  const documentType = DocumentTypes.PRICE_DOCUMENT;
+  const inDomain = BiddingZones.FI;
+  const outDomain = BiddingZones.FI;
   const url = `https://web-api.tp.entsoe.eu/api?securityToken=${ENTSOE_API_KEY}&documentType=${documentType}&in_Domain=${inDomain}&out_Domain=${outDomain}&periodStart=${startingDate}0000&periodEnd=${endingDate}0000`;
   const response = await axios.get(url);
 
@@ -152,7 +153,7 @@ export const getElectricityPrice = async (
   });
 
   priceUnits.forEach((item) => {
-    item.date = dayjs(item.date).tz('Europe/Helsinki').format('DD.MM.YYYY');
+    item.date = dayjs(item.date).tz(TimeZones.FI).format('DD.MM.YYYY');
   });
   return priceUnits;
 };
