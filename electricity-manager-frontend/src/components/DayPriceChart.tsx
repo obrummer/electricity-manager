@@ -7,7 +7,6 @@ import {
   Tooltip,
   ResponsiveContainer,
   ReferenceLine,
-  // Label,
 } from 'recharts';
 import { Price } from '../types';
 import { useTheme } from '@mui/material/styles';
@@ -15,14 +14,14 @@ import { useTheme } from '@mui/material/styles';
 interface DayPriceChartProps {
   data: Price[];
   showTax: boolean;
-  getCurrentPriceAndTime: () => Price;
+  currentHour: string;
   today?: boolean;
 }
 function DayPriceChart({
   data,
   showTax,
-  getCurrentPriceAndTime,
   today,
+  currentHour,
 }: DayPriceChartProps) {
   const theme = useTheme();
   return (
@@ -42,15 +41,7 @@ function DayPriceChart({
           <YAxis label={{ value: 'c/kWh', position: 'top' }} />
           <Tooltip />
           {today && (
-            <ReferenceLine
-              id="reference-line"
-              x={getCurrentPriceAndTime().time}
-              stroke="black"
-            >
-              {/* <Label position={'top'}>
-              Current price: {getCurrentPriceAndTime().price.toString()}
-            </Label> */}
-            </ReferenceLine>
+            <ReferenceLine id="reference-line" x={currentHour} stroke="black" />
           )}
           <Line
             type="monotone"

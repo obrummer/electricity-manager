@@ -16,7 +16,9 @@ const Wrapper = ({ children }: WrapperProps) => (
 );
 
 function IndicatorContainer() {
-  const { data, isLoading, isError } = useGetIndicatorsQuery();
+  const { data, isLoading, isError } = useGetIndicatorsQuery(undefined, {
+    pollingInterval: 100000,
+  });
 
   if (isLoading) {
     return (

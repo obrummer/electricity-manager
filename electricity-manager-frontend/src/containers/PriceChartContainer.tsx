@@ -1,86 +1,102 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import DayPriceChart from '../components/DayPriceChart';
 import { useGetPricesByDateQuery } from '../features/prices/pricesAPI';
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
 import Switch from '@mui/material/Switch';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
-import { Typography } from '@mui/material';
+import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
 import ContainerLoader from '../components/ContainerLoader';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { currentUser } from '../utils/userConfig';
-import { getPricesByDate } from '../utils/chartFunctions';
+import {
+  getPricesByDate,
+  getChartData,
+  getCurrentHour,
+} from '../utils/chartFunctions';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
+dayjs.extend(customParseFormat);
 
 const PriceChartContainer = () => {
-  const [alignment, setAlignment] = useState<string>('today');
+  const today = dayjs().format('DD.MM.YYYY');
+  const tomorrow = dayjs().add(1, 'day').format('DD.MM.YYYY');
+  const [activeDate, setActiveDate] = useState<string>(today);
   const [showTax, setShowTax] = useState<boolean>(false);
+  const [currentHour, setCurrentHour] = useState<string>(
+    getCurrentHour(currentUser.timeZone),
+  );
 
   const {
     data: pricesByDate,
     isLoading,
     isError,
-  } = useGetPricesByDateQuery(
-    {},
-    // {
-    //   selectFromResult: ({ data, error, isLoading }) => ({
-    //     data: data?.filter((item: Price) => item.date === '11.01.2023'),
-    //     error,
-    //     isLoading,
-    //   }),
-    // },
-  );
+  } = useGetPricesByDateQuery({
+    startDate: activeDate === tomorrow ? today : activeDate,
+  });
 
-  const today = getPricesByDate(pricesByDate, dayjs().format('DD.MM.YYYY'));
-  const tomorrow = getPricesByDate(
-    pricesByDate,
-    dayjs().add(1, 'day').format('DD.MM.YYYY'),
-  );
-  const yesterday = getPricesByDate(
-    pricesByDate,
-    dayjs().subtract(1, 'day').format('DD.MM.YYYY'),
-  );
-
-  const dataType = (alignment: string) => {
-    if (alignment === 'today' && today) {
-      return today;
-    }
-    if (alignment === 'tomorrow' && tomorrow) {
-      return tomorrow;
-    }
-    if (alignment === 'yesterday' && yesterday) {
-      return yesterday;
-    }
-    return [];
-  };
-
-  const getCurrentPriceAndTime = () => {
-    let currentHour = dayjs().tz(currentUser.timeZone).hour().toString();
-    if (currentHour.length === 1) {
-      currentHour = `0${currentHour}`;
-    }
-    const currentItem = () => {
-      if (today) {
-        return today.find((item) => item.time === `${currentHour}:00`);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (dayjs().minute().toString() === '0') {
+        setCurrentHour(getCurrentHour(currentUser.timeZone));
       }
-    };
-    return currentItem() || { price: 0, time: '', date: '', priceWithTax: 0 };
+    }, 60000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleAlignmentTest = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: number,
+  ) => {
+    if (newAlignment === 1) {
+      setActiveDate(
+        dayjs(activeDate, 'DD.MM.YYYY').add(1, 'day').format('DD.MM.YYYY'),
+      );
+    }
+    if (newAlignment === -1) {
+      setActiveDate(
+        dayjs(activeDate, 'DD.MM.YYYY').subtract(1, 'day').format('DD.MM.YYYY'),
+      );
+    }
+    if (newAlignment === 0) {
+      setActiveDate(today);
+    }
   };
 
-  const getFormattedDate = (date?: dayjs.Dayjs) => dayjs(date).format('MMM D');
+  const disableTomorrow = () => {
+    const tomorrowData = getPricesByDate(pricesByDate, tomorrow);
+    if (
+      (tomorrowData.length <= 1 && activeDate === today) ||
+      activeDate === tomorrow
+    ) {
+      return true;
+    }
+    return false;
+  };
 
-  const handleAlignment = (
-    event: React.MouseEvent<HTMLElement>,
-    newAlignment: string,
-  ) => {
-    if (newAlignment !== null) {
-      setAlignment(newAlignment);
+  const renderChart = () => {
+    if (
+      getPricesByDate(
+        pricesByDate,
+        dayjs(activeDate, 'DD.MM.YYYY').format('DD.MM.YYYY'),
+      ).length <= 23
+    ) {
+      return <ContainerLoader amount={4} />;
+    } else {
+      return (
+        <DayPriceChart
+          data={getChartData(pricesByDate, activeDate)}
+          showTax={showTax}
+          currentHour={currentHour}
+          today={activeDate === today}
+        />
+      );
     }
   };
 
@@ -88,7 +104,7 @@ const PriceChartContainer = () => {
     return <ContainerLoader />;
   }
 
-  if (isError || !today || !tomorrow || !yesterday) {
+  if (isError || !pricesByDate) {
     return <div>Something went wrong</div>;
   }
 
@@ -103,11 +119,9 @@ const PriceChartContainer = () => {
             paddingTop: 0.9,
           }}
         >
-          <Typography sx={{ fontSize: 14 }}>
-            Date: {dataType(alignment)[0].date}{' '}
-          </Typography>
+          <Typography sx={{ fontSize: 14 }}>Date: {activeDate}</Typography>
         </Grid>
-        <Grid item xs={6} md={4}>
+        <Grid item xs={6} md={3}>
           <FormGroup>
             <FormControlLabel
               control={
@@ -121,38 +135,37 @@ const PriceChartContainer = () => {
             />
           </FormGroup>
         </Grid>
-        <Grid item xs={6} md={4}>
-          <ToggleButtonGroup
+        <Grid item xs={6} md={5}>
+          <ButtonGroup
             sx={{
               float: 'right',
             }}
-            value={alignment}
-            exclusive
-            onChange={handleAlignment}
-            size="small"
+            variant="outlined"
           >
-            <ToggleButton id="toggle-reduce-day" value="yesterday">
-              {getFormattedDate(dayjs().subtract(1, 'day'))}
-            </ToggleButton>
-            <ToggleButton id="toggle-today" value="today">
-              Today
-            </ToggleButton>
-            <ToggleButton
-              id="toggle-add-day"
-              value="tomorrow"
-              disabled={tomorrow.length <= 1}
+            <Button
+              onClick={(e) => handleAlignmentTest(e, -1)}
+              id="toggle-reduce-day"
             >
-              {getFormattedDate(dayjs().add(1, 'day'))}
-            </ToggleButton>
-          </ToggleButtonGroup>
+              - 1
+            </Button>
+            <Button
+              onClick={(e) => handleAlignmentTest(e, 0)}
+              id="toggle-today"
+            >
+              Today
+            </Button>
+
+            <Button
+              disabled={disableTomorrow()}
+              onClick={(e) => handleAlignmentTest(e, 1)}
+              id="toggle-add-day"
+            >
+              + 1
+            </Button>
+          </ButtonGroup>
         </Grid>
       </Grid>
-      <DayPriceChart
-        data={dataType(alignment)}
-        showTax={showTax}
-        getCurrentPriceAndTime={getCurrentPriceAndTime}
-        today={alignment === 'today'}
-      />
+      {renderChart()}
     </>
   );
 };

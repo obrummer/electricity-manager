@@ -63,6 +63,7 @@ function SwitchDialog({
               onChange={(e: { target: { value: string } }) =>
                 setSwitchName(e.target.value)
               }
+              inputProps={{ maxLength: 20 }}
             />
             <TextField
               sx={{ m: 1, minWidth: 200 }}

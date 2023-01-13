@@ -23,7 +23,9 @@ function SwitchContainer() {
   const [openConfirmation, setOpenConfirmation] = useState(false);
 
   // Use queries and mutations
-  const { data, isLoading, isError } = useGetSwitchesQuery();
+  const { data, isLoading, isError } = useGetSwitchesQuery(undefined, {
+    pollingInterval: 100000,
+  });
   const [
     createSwitch,
     {

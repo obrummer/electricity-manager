@@ -17,15 +17,13 @@ export const pricesApi = createApi({
           params: { startDate, endDate },
         };
       },
+      keepUnusedDataFor: 600,
       providesTags: (result) =>
         // is result available?
         result
           ? // successful query
             [
-              ...result.map(
-                ({ time, date }) =>
-                  ({ type: 'Prices', dateTime: `${date}${time}` } as const),
-              ),
+              ...result.map(({ date }) => ({ type: 'Prices', date } as const)),
               { type: 'Prices', id: 'LIST' },
             ]
           : // an error occurred, but we still want to refetch this query when `{ type: 'Prices', id: 'LIST' }` is invalidated
