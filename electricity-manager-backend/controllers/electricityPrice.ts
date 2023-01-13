@@ -4,15 +4,22 @@ import {
 } from '../services/electricityPriceService';
 import express from 'express';
 const electricityPriceRouter = express.Router();
-import dayjs = require('dayjs');
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+dayjs.extend(customParseFormat);
 
+// Get electricity price by date
 electricityPriceRouter.get(
   '/electricitypricebydate',
   async (req, res, next) => {
     try {
       const startDate = req.query.startDate as string;
       const endDate = req.query.endDate as string;
-      const prices = await getElectricityPrice(startDate, endDate);
+      console.log(startDate);
+      const prices = await getElectricityPrice(
+        dayjs(startDate, 'DD.MM.YYYY').subtract(1, 'day').format('YYYYMMDD'),
+        endDate,
+      );
 
       res.json(prices);
     } catch (error) {
@@ -21,50 +28,7 @@ electricityPriceRouter.get(
   },
 );
 
-electricityPriceRouter.get('/electricityprice', async (_req, res, next) => {
-  try {
-    const price = await getElectricityPrice();
-    const currentDayPrices = price.filter((priceObject: { date: string }) => {
-      return priceObject.date === dayjs().format('DD.MM.YYYY');
-    });
-    res.json(currentDayPrices);
-  } catch (error) {
-    next(error);
-  }
-});
-
-electricityPriceRouter.get(
-  '/tomorrowelectricityprice',
-  async (_req, res, next) => {
-    try {
-      const price = await getElectricityPrice();
-      const tomorrowPrices = price.filter((priceObject: { date: string }) => {
-        return priceObject.date === dayjs().add(1, 'day').format('DD.MM.YYYY');
-      });
-      res.json(tomorrowPrices);
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-electricityPriceRouter.get(
-  '/yesterdayelectricityprice',
-  async (_req, res, next) => {
-    try {
-      const price = await getElectricityPrice();
-      const yesterdayPrices = price.filter((priceObject: { date: string }) => {
-        return (
-          priceObject.date === dayjs().subtract(1, 'day').format('DD.MM.YYYY')
-        );
-      });
-      res.json(yesterdayPrices);
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
+// Get indicators
 electricityPriceRouter.get('/indicators', async (_req, res, next) => {
   try {
     const indicators = await getIndicators();
