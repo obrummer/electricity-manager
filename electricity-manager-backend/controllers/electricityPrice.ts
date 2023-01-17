@@ -15,7 +15,6 @@ electricityPriceRouter.get(
     try {
       const startDate = req.query.startDate as string;
       const endDate = req.query.endDate as string;
-      console.log(startDate);
       const prices = await getElectricityPrice(
         dayjs(startDate, 'DD.MM.YYYY').subtract(1, 'day').format('YYYYMMDD'),
         endDate,
