@@ -41,7 +41,7 @@ app.use('/api', electricityPriceRouter);
 
 app.get('/favicon.ico', (_req, res) => res.status(204));
 
-// clear database when doing integration tests
+// clear database router when doing integration tests
 if (process.env.NODE_ENV === 'test') {
   app.use('/api', testingRouter);
 }

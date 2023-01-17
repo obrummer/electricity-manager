@@ -15,8 +15,7 @@ import { ENTSOE_API_KEY } from '../utils/config';
 import {
   getAveragePrice,
   getPercentageDifference,
-  getHighestPrice,
-  getLowestPrice,
+  getHighestAndLowestPrice,
   getCurrentPrice,
   roundByTwoDecimals,
 } from '../utils/priceHelpers';
@@ -173,8 +172,12 @@ export const getIndicators = async (): Promise<Indicators> => {
     getPercentageDifference(averagePriceToday, averagePriceYesterday),
   );
 
-  const todayHighestPrice = roundByTwoDecimals(getHighestPrice(todayData));
-  const todayLowestPrice = roundByTwoDecimals(getLowestPrice(todayData));
+  const todayHighestPrice = roundByTwoDecimals(
+    getHighestAndLowestPrice(todayData).highest,
+  );
+  const todayLowestPrice = roundByTwoDecimals(
+    getHighestAndLowestPrice(todayData).lowest,
+  );
 
   const currentPrice = roundByTwoDecimals(getCurrentPrice(todayData));
 

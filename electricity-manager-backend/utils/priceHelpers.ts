@@ -23,14 +23,14 @@ export const getPercentageDifference = (
   return percentageDifference;
 };
 
-export const getHighestPrice = (data: PriceUnit[]): number => {
+export const getHighestAndLowestPrice = (
+  data: PriceUnit[],
+): { highest: number; lowest: number } => {
   const prices = data.map((item) => item.price);
-  return Math.max(...prices);
-};
-
-export const getLowestPrice = (data: PriceUnit[]): number => {
-  const prices = data.map((item) => item.price);
-  return Math.min(...prices);
+  return {
+    highest: Math.max(...prices),
+    lowest: Math.min(...prices),
+  };
 };
 
 export const getCurrentPrice = (

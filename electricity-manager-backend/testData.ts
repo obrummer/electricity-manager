@@ -1,3 +1,30 @@
+export const dayPriceData = [
+  { price: 4.65, time: '00:00', date: '17.01.2023', priceWithTax: 5.12 },
+  { price: 4.71, time: '01:00', date: '17.01.2023', priceWithTax: 5.18 },
+  { price: 4.29, time: '02:00', date: '17.01.2023', priceWithTax: 4.72 },
+  { price: 4.22, time: '03:00', date: '17.01.2023', priceWithTax: 4.64 },
+  { price: 4.08, time: '04:00', date: '17.01.2023', priceWithTax: 4.49 },
+  { price: 4.16, time: '05:00', date: '17.01.2023', priceWithTax: 4.58 },
+  { price: 4.58, time: '06:00', date: '17.01.2023', priceWithTax: 5.03 },
+  { price: 6.02, time: '07:00', date: '17.01.2023', priceWithTax: 6.62 },
+  { price: 7.09, time: '08:00', date: '17.01.2023', priceWithTax: 7.8 },
+  { price: 7.34, time: '09:00', date: '17.01.2023', priceWithTax: 8.07 },
+  { price: 7.26, time: '10:00', date: '17.01.2023', priceWithTax: 7.99 },
+  { price: 7.4, time: '11:00', date: '17.01.2023', priceWithTax: 8.13 },
+  { price: 7.62, time: '12:00', date: '17.01.2023', priceWithTax: 8.38 },
+  { price: 8, time: '13:00', date: '17.01.2023', priceWithTax: 8.8 },
+  { price: 7.51, time: '14:00', date: '17.01.2023', priceWithTax: 8.26 },
+  { price: 7.22, time: '15:00', date: '17.01.2023', priceWithTax: 7.94 },
+  { price: 7.56, time: '16:00', date: '17.01.2023', priceWithTax: 8.31 },
+  { price: 7.6, time: '17:00', date: '17.01.2023', priceWithTax: 8.36 },
+  { price: 7.66, time: '18:00', date: '17.01.2023', priceWithTax: 8.42 },
+  { price: 7.35, time: '19:00', date: '17.01.2023', priceWithTax: 8.08 },
+  { price: 6.72, time: '20:00', date: '17.01.2023', priceWithTax: 7.39 },
+  { price: 6.01, time: '21:00', date: '17.01.2023', priceWithTax: 6.62 },
+  { price: 5.37, time: '22:00', date: '17.01.2023', priceWithTax: 5.91 },
+  { price: 4.74, time: '23:00', date: '17.01.2023', priceWithTax: 5.22 },
+];
+
 export const electricityPriceServiceData = `
 <Publication_MarketDocument xmlns="urn:iec62325.351:tc57wg16:451-3:publicationdocument:7:0">
 <mRID>6b2c2b067c624ba286770e1040690bbf</mRID>
