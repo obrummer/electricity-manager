@@ -9,7 +9,13 @@
     "dev": "cross-env NODE_ENV=development ts-node-dev index.ts",
     "lint": "eslint --ext .ts .",
     "start": "cross-env NODE_ENV=production node build/index.js",
-    "start:test": "cross-env NODE_ENV=test ts-node-dev index.ts"
+    "start:test": "cross-env NODE_ENV=test ts-node-dev index.ts",
+    "build:ui": "rm -rf build && cd ../electricity-manager-frontend && rm -rf build && npm run build && cp -r build ../electricity-manager-backend && cd ../electricity-manager-backend",
+    "build:backend": "npm run tsc",
+    "build:full": "npm run build:ui && npm run build:backend",
+    "deploy": "flyctl deploy",
+    "deploy:full": "npm run build:full && npm run deploy",
+    "logs:production": "flyctl logs"
   },
   "author": "",
   "license": "ISC",
