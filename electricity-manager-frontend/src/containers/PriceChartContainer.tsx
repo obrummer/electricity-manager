@@ -110,7 +110,7 @@ const PriceChartContainer = () => {
 
   return (
     <>
-      <Grid container>
+      <Grid container data-testid="price-chart-container">
         <Grid
           item
           xs={4}

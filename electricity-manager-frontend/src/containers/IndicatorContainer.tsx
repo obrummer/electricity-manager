@@ -31,13 +31,13 @@ function IndicatorContainer() {
   if (isError || !data) {
     return (
       <Wrapper>
-        <div>Something went Wrong</div>
+        <div>Something went wrong</div>
       </Wrapper>
     );
   }
 
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={3} data-testid="indicator-container">
       <Grid item xs={6} md={3} lg={3}>
         <IndicatorCard
           title={'Average price today'}
