@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 
-class AppError extends Error {
+export class AppError extends Error {
   statusCode: number;
 
   constructor(statusCode: number, message: string) {
@@ -56,8 +56,7 @@ export const errorResponder = (
   res: Response,
   _next: NextFunction,
 ) => {
-  res.header('Content-Type', 'application/json');
-
   const status = error.statusCode || 400;
-  res.status(status).send(error.message);
+  res.status(status);
+  res.json({ error: error.message });
 };
