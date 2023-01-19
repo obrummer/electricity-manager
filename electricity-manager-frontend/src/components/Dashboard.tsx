@@ -9,6 +9,7 @@ import Copyright from './Copyright';
 import SwitchContainer from '../containers/SwitchContainer';
 import PriceChartContainer from '../containers/PriceChartContainer';
 import IndicatorContainer from '../containers/IndicatorContainer';
+import Header from './Header';
 
 function Dashboard() {
   return (
@@ -29,10 +30,7 @@ function Dashboard() {
       <Box
         component="main"
         sx={{
-          backgroundColor: (theme) =>
-            theme.palette.mode === 'light'
-              ? theme.palette.grey[100]
-              : theme.palette.grey[900],
+          backgroundColor: (theme) => theme.palette.grey[100],
           flexGrow: 1,
           height: '100vh',
           overflow: 'auto',
@@ -52,13 +50,7 @@ function Dashboard() {
                   flexDirection: 'column',
                 }}
               >
-                <Typography
-                  sx={{ fontSize: 14 }}
-                  color="text.secondary"
-                  gutterBottom
-                >
-                  Electricity price
-                </Typography>
+                <Header text="Electricity price" />
                 <PriceChartContainer />
               </Paper>
             </Grid>
@@ -70,13 +62,7 @@ function Dashboard() {
                   flexDirection: 'column',
                 }}
               >
-                <Typography
-                  sx={{ fontSize: 14 }}
-                  color="text.secondary"
-                  gutterBottom
-                >
-                  Switches
-                </Typography>
+                <Header text="Switches" />
                 <SwitchContainer />
               </Paper>
             </Grid>

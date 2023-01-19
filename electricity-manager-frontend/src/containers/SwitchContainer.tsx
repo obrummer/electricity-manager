@@ -13,6 +13,7 @@ import SwitchTable from '../components/SwitchTable';
 import { DialogMode } from '../types';
 import { toast } from 'react-toastify';
 import ContainerLoader from '../components/ContainerLoader';
+import Message from '../components/Message';
 
 function SwitchContainer() {
   const [open, setOpen] = useState(false);
@@ -167,7 +168,7 @@ function SwitchContainer() {
     }
 
     if (isError || !data) {
-      return <div>Something went wrong</div>;
+      return <Message />;
     }
     return (
       <>

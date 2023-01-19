@@ -19,6 +19,7 @@ import {
   getChartData,
   getCurrentHour,
 } from '../utils/chartFunctions';
+import Message from '../components/Message';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -50,7 +51,7 @@ const PriceChartContainer = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const handleAlignmentTest = (
+  const handleAlignment = (
     event: React.MouseEvent<HTMLElement>,
     newAlignment: number,
   ) => {
@@ -105,7 +106,7 @@ const PriceChartContainer = () => {
   }
 
   if (isError || !pricesByDate) {
-    return <div>Something went wrong</div>;
+    return <Message />;
   }
 
   return (
@@ -143,21 +144,18 @@ const PriceChartContainer = () => {
             variant="outlined"
           >
             <Button
-              onClick={(e) => handleAlignmentTest(e, -1)}
+              onClick={(e) => handleAlignment(e, -1)}
               id="toggle-reduce-day"
             >
               - 1
             </Button>
-            <Button
-              onClick={(e) => handleAlignmentTest(e, 0)}
-              id="toggle-today"
-            >
+            <Button onClick={(e) => handleAlignment(e, 0)} id="toggle-today">
               Today
             </Button>
 
             <Button
               disabled={disableTomorrow()}
-              onClick={(e) => handleAlignmentTest(e, 1)}
+              onClick={(e) => handleAlignment(e, 1)}
               id="toggle-add-day"
             >
               + 1

@@ -3,6 +3,8 @@ import { useGetIndicatorsQuery } from '../features/prices/pricesAPI';
 import IndicatorCard from '../components/IndicatorCard';
 import ContainerLoader from '../components/ContainerLoader';
 import Paper from '@mui/material/Paper';
+import Header from '../components/Header';
+import Message from '../components/Message';
 
 interface WrapperProps {
   children: React.ReactNode;
@@ -10,7 +12,7 @@ interface WrapperProps {
 
 const Wrapper = ({ children }: WrapperProps) => (
   <Paper sx={{ padding: 2 }}>
-    Indicators
+    <Header text="Indicators" />
     {children}
   </Paper>
 );
@@ -31,7 +33,7 @@ function IndicatorContainer() {
   if (isError || !data) {
     return (
       <Wrapper>
-        <div>Something went wrong</div>
+        <Message />
       </Wrapper>
     );
   }
