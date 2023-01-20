@@ -13,14 +13,18 @@ electricityPriceRouter.get(
   '/electricitypricebydate',
   async (req, res, next) => {
     try {
-      const startDate = req.query.startDate as string;
-      const endDate = req.query.endDate as string;
-      const prices = await getElectricityPrice(
-        dayjs(startDate, 'DD.MM.YYYY').subtract(1, 'day').format('YYYYMMDD'),
-        endDate,
-      );
+      if (!req.query.startDate || !req.query.endDate) {
+        throw new Error('Start date and end date are required');
+      } else {
+        const startDate = req.query.startDate as string;
+        const endDate = req.query.endDate as string;
+        const prices = await getElectricityPrice(
+          dayjs(startDate, 'DD.MM.YYYY').subtract(1, 'day').format('YYYYMMDD'),
+          dayjs(endDate, 'DD.MM.YYYY').format('YYYYMMDD'),
+        );
 
-      res.json(prices);
+        res.json(prices);
+      }
     } catch (error) {
       next(error);
     }

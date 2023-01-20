@@ -125,5 +125,6 @@ describe('Switch CRUD tests', () => {
 });
 
 afterAll(async () => {
+  await SwitchPoint.deleteMany({});
   await mongoose.connection.close();
 });
