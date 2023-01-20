@@ -26,3 +26,7 @@ export interface Indicators {
   todayLowestPrice: number;
   currentPrice: number;
 }
+
+export interface WrapperProps {
+  children: React.ReactNode;
+}

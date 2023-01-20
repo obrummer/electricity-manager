@@ -5,10 +5,7 @@ import SwitchContainer from './SwitchContainer';
 import { Provider } from 'react-redux';
 import { setupApiStore } from '../utils/testUtils';
 import { switchesApi } from '../features/switches/switchesAPI';
-
-interface WrapperProps {
-  children: React.ReactNode;
-}
+import { WrapperProps } from '../types';
 
 beforeEach((): void => {
   fetchMock.resetMocks();

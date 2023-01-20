@@ -15,11 +15,6 @@ export const getPricesByDate = (prices: Price[] | undefined, date: string) => {
   return [];
 };
 
-export const getChartData = (data: Price[] | undefined, date: string) => {
-  const chartData = data?.filter((item) => item.date === date);
-  return chartData || [];
-};
-
 export const getCurrentHour = (timeZone: string) => {
   let currentHour = dayjs().tz(timeZone).hour().toString();
   if (currentHour.length === 1) {

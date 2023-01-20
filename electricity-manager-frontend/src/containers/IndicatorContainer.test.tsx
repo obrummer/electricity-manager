@@ -6,10 +6,7 @@ import { Provider } from 'react-redux';
 import { setupApiStore } from '../utils/testUtils';
 import { pricesApi } from '../features/prices/pricesAPI';
 import { indicatorResponse } from '../utils/testData';
-
-interface WrapperProps {
-  children: React.ReactNode;
-}
+import { WrapperProps } from '../types';
 
 beforeEach((): void => {
   fetchMock.resetMocks();

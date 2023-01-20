@@ -14,11 +14,7 @@ import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { currentUser } from '../utils/userConfig';
-import {
-  getPricesByDate,
-  getChartData,
-  getCurrentHour,
-} from '../utils/chartFunctions';
+import { getPricesByDate, getCurrentHour } from '../utils/chartFunctions';
 import Message from '../components/Message';
 
 dayjs.extend(utc);
@@ -34,14 +30,17 @@ const PriceChartContainer = () => {
     getCurrentHour(currentUser.timeZone),
   );
 
+  // get prices for active date and next day
   const {
     data: pricesByDate,
     isLoading,
     isError,
   } = useGetPricesByDateQuery({
     startDate: activeDate === tomorrow ? today : activeDate,
+    endDate: dayjs(activeDate, 'DD.MM.YYYY').add(1, 'day').format('DD.MM.YYYY'),
   });
 
+  // update current hour
   useEffect(() => {
     const interval = setInterval(() => {
       if (dayjs().minute().toString() === '0') {
@@ -51,6 +50,7 @@ const PriceChartContainer = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // handle date change
   const handleAlignment = (
     event: React.MouseEvent<HTMLElement>,
     newAlignment: number,
@@ -70,6 +70,7 @@ const PriceChartContainer = () => {
     }
   };
 
+  // disable tomorrow button if there is no data for tomorrow
   const disableTomorrow = () => {
     const tomorrowData = getPricesByDate(pricesByDate, tomorrow);
     if (
@@ -81,6 +82,7 @@ const PriceChartContainer = () => {
     return false;
   };
 
+  // render chart or loader
   const renderChart = () => {
     if (
       getPricesByDate(
@@ -92,7 +94,7 @@ const PriceChartContainer = () => {
     } else {
       return (
         <DayPriceChart
-          data={getChartData(pricesByDate, activeDate)}
+          data={getPricesByDate(pricesByDate, activeDate)}
           showTax={showTax}
           currentHour={currentHour}
           today={activeDate === today}

@@ -5,10 +5,7 @@ import ContainerLoader from '../components/ContainerLoader';
 import Paper from '@mui/material/Paper';
 import Header from '../components/Header';
 import Message from '../components/Message';
-
-interface WrapperProps {
-  children: React.ReactNode;
-}
+import { WrapperProps } from '../types';
 
 const Wrapper = ({ children }: WrapperProps) => (
   <Paper sx={{ padding: 2 }}>
@@ -18,6 +15,7 @@ const Wrapper = ({ children }: WrapperProps) => (
 );
 
 function IndicatorContainer() {
+  // get indicators
   const { data, isLoading, isError } = useGetIndicatorsQuery(undefined, {
     pollingInterval: 100000,
   });
