@@ -7,6 +7,7 @@
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand --forceExit",
     "tsc": "tsc",
     "dev": "cross-env NODE_ENV=development ts-node-dev index.ts",
+    "branch": "cross-env NODE_ENV=branch ts-node-dev index.ts",
     "lint": "eslint --ext .ts .",
     "start": "cross-env NODE_ENV=production node build/index.js",
     "start:test": "cross-env NODE_ENV=test ts-node-dev index.ts",
@@ -39,17 +40,19 @@
     "typescript": "^4.9.3"
   },
   "dependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/node-cron": "^3.0.7",
     "@types/xml2js": "^0.4.11",
     "axios": "^1.2.0",
+    "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "dayjs": "^1.11.7",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "mongoose": "^6.7.2",
     "node-cron": "^3.0.2",
     "normalize-mongoose": "^1.0.0",
-    "xml2js": "^0.4.23",
-    "cross-env": "^7.0.3"
+    "xml2js": "^0.4.23"
   }
 }

@@ -1,6 +1,7 @@
 import express from 'express';
 const switchPointRouter = express.Router();
 import { SwitchPoint } from '../models/switchPoint';
+import { User } from '../models/user';
 import { ISwitchPoint } from '../types';
 import { validateRequest } from '../utils/validate';
 import { getElectricityPrice } from '../services/electricityPriceService';
@@ -29,6 +30,35 @@ switchPointRouter.get('/switches/:id', async (req, res, next) => {
 });
 
 // Create switch
+// switchPointRouter.post('/switches', async (req, res, next) => {
+//   try {
+//     const data = await getElectricityPrice();
+//     const todayData = data.filter((priceObject: { date: string }) => {
+//       return priceObject.date === dayjs().format('DD.MM.YYYY');
+//     });
+//     const currentPrice = getCurrentPrice(todayData);
+//     const { name, isActive, highLimit } = req.body as ISwitchPoint;
+
+//     validateRequest(name, isActive, highLimit);
+
+//     const switchPoint = new SwitchPoint({
+//       name,
+//       isActive: highLimit >= currentPrice ? true : false,
+//       highLimit,
+//     });
+
+//     const savedSwitchPoint = await switchPoint.save();
+//     res.json(savedSwitchPoint);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
+interface ICreateSwitchPoint extends ISwitchPoint {
+  userId: string;
+}
+
+// Create switch
 switchPointRouter.post('/switches', async (req, res, next) => {
   try {
     const data = await getElectricityPrice();
@@ -36,7 +66,8 @@ switchPointRouter.post('/switches', async (req, res, next) => {
       return priceObject.date === dayjs().format('DD.MM.YYYY');
     });
     const currentPrice = getCurrentPrice(todayData);
-    const { name, isActive, highLimit } = req.body as ISwitchPoint;
+    const { name, isActive, highLimit, userId } =
+      req.body as ICreateSwitchPoint;
 
     validateRequest(name, isActive, highLimit);
 
@@ -44,9 +75,20 @@ switchPointRouter.post('/switches', async (req, res, next) => {
       name,
       isActive: highLimit >= currentPrice ? true : false,
       highLimit,
+      user: userId,
     });
 
     const savedSwitchPoint = await switchPoint.save();
+
+    if (userId) {
+      const user = await User.findById(userId);
+      if (user) {
+        user.switchPoints = user.switchPoints.concat(
+          savedSwitchPoint._id as unknown as string,
+        );
+        await user.save();
+      }
+    }
     res.json(savedSwitchPoint);
   } catch (error) {
     next(error);

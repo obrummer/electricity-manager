@@ -2,6 +2,7 @@ export interface ISwitchPoint {
   name: string;
   isActive: boolean;
   highLimit: number;
+  user?: string;
 }
 
 export interface PriceUnit {

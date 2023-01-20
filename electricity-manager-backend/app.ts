@@ -10,6 +10,7 @@ import {
   errorResponder,
 } from './utils/middleware';
 import electricityPriceRouter from './controllers/electricityPrice';
+import userRouter from './controllers/user';
 import testingRouter from './controllers/testing';
 import {
   cronJobToUpdateSwitchPoints,
@@ -38,6 +39,7 @@ void updateSwitchPoints();
 // routers for apis
 app.use('/api', switchPointRouter);
 app.use('/api', electricityPriceRouter);
+app.use('/api', userRouter);
 
 app.get('/favicon.ico', (_req, res) => res.status(204));
 
