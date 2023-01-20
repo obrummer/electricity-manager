@@ -11,6 +11,7 @@ import {
 } from './utils/middleware';
 import electricityPriceRouter from './controllers/electricityPrice';
 import userRouter from './controllers/user';
+import loginRouter from './controllers/login';
 import testingRouter from './controllers/testing';
 import {
   cronJobToUpdateSwitchPoints,
@@ -37,6 +38,7 @@ if (process.env.NODE_ENV !== 'test') {
 void updateSwitchPoints();
 
 // routers for apis
+app.use('/api', loginRouter);
 app.use('/api', switchPointRouter);
 app.use('/api', electricityPriceRouter);
 app.use('/api', userRouter);
